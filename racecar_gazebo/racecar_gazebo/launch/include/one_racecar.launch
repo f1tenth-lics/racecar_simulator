@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"/>
+
+  <arg name="color" default="blue" />
+  <arg name="init_x"/>
+  <arg name="init_y"/>
+  <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro' color:=$(arg color) robot_name:=$(arg robot_name)" />
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot_name) -x $(arg init_x) -y $(arg init_y) -z 0.05" />
+</launch>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name" default="racecar" />
+  <arg name="gui" default="true" />
+  <arg name="run_camera" default="false"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find racecar_gazebo)/worlds/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <group ns="racecar1">
+    <include file="$(find racecar_gazebo)/launch/include/one_racecar.launch">
+      <arg name="robot_name" value="racecar1"/>
+      <arg name="color" value="blue"/>
+      <arg name="init_x" value="0"/>
+      <arg name="init_y" value="0"/>
+    </include>
+    <include file="$(find racecar_control)/launch/racecar_control.launch">
+      <arg name="robot_name" value="racecar1"/>
+    </include>
+
+    <!-- Spawn the MUXs -->
+    <include file="$(find racecar)/launch/mux.launch" ns="vesc" />
+  </group>
+
+  <group ns="racecar2">
+    <!-- Spawn the racecar -->
+    <include file="$(find racecar_gazebo)/launch/include/one_racecar.launch">
+      <arg name="robot_name" value="racecar2"/>
+      <arg name="color" value="red"/>
+      <arg name="init_x" value="1"/>
+      <arg name="init_y" value="0"/>
+    </include>
+
+    <!-- Run the control node -->
+    <include file="$(find racecar_control)/launch/racecar_control.launch">
+      <arg name="robot_name" value="racecar2"/>
+    </include>
+
+    <!-- Spawn the MUXs -->
+    <include file="$(find racecar)/launch/mux.launch" ns="vesc" />
+  </group>
+
+  <include file="$(find racecar_control)/launch/teleop.launch">
+    <arg name="robot_name" value="racecar2"/>
+  </include>
+
+</launch>
