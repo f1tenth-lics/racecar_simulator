@@ -5,18 +5,18 @@ joy_node:
 
 teleop:
   # Default mode - Stop for safety
-#  default:
-#    type: topic
-#    is_default: true
-#    message_type: ackermann_msgs/AckermannDriveStamped
-#    topic_name: low_level/ackermann_cmd_mux/input/teleop
-#    message_value:
-#      -
-#        target: drive.speed
-#        value: 0.0
-#      -
-#        target: drive.steering_angle
-#        value: 0.0
+  default:
+    type: topic
+    is_default: true
+    message_type: ackermann_msgs/AckermannDriveStamped
+    topic_name: low_level/ackermann_cmd_mux/input/teleop
+    message_value:
+      -
+        target: drive.speed
+        value: 0.0
+      -
+        target: drive.steering_angle
+        value: 0.0
 
   # Enable Human control by holding Left Bumper
   human_control:
