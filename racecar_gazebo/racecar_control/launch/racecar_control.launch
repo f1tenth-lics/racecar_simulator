@@ -23,7 +23,9 @@
     <remap from="ackermann_cmd_mux/output" to="vesc/low_level/ackermann_cmd_mux/output"/>
   </node>
 
-  <node name= "odometry_node" pkg="racecar_gazebo" type="gazebo_odometry_alt.py" output="screen" />
-
+  <!-- <node name= "odometry_node" pkg="racecar_gazebo" type="gazebo_odometry_alt.py" output="screen" /> -->
+  <node name="odom_publisher" pkg="racecar_control" type="odom_publisher.py" output="screen">
+    <remap from="ackermann_cmd_mux/output" to="vesc/low_level/ackermann_cmd_mux/output"/>
+  </node>
 
 </launch>

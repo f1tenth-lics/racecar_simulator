@@ -2,37 +2,37 @@
 <robot name="racecar" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <gazebo reference="${robot_name}/left_rear_wheel">
-  <mu1 value="1.0"/>
-  <mu2 value="1.0"/>
-  <kp  value="10000000.0" />
-  <kd  value="1.0" />
+  <mu1 value="1.5"/>
+  <mu2 value="1.5"/>
+  <kp  value="750000.0" />
+  <kd  value="150.0" />
   <fdir1 value="1 0 0"/>
   <material>Gazebo/Black</material>
 </gazebo>
 
 <gazebo reference="${robot_name}/right_rear_wheel">
-  <mu1 value="1.0"/>
-  <mu2 value="1.0"/>
-  <kp  value="10000000.0" />
-  <kd  value="1.0" />
+  <mu1 value="1.5"/>
+  <mu2 value="1.5"/>
+  <kp  value="750000.0" />
+  <kd  value="150.0" />
   <fdir1 value="1 0 0"/>
   <material>Gazebo/Black</material>
 </gazebo>
 
 <gazebo reference="${robot_name}/left_front_wheel">
-  <mu1 value="1.0"/>
-  <mu2 value="1.0"/>
-  <kp  value="10000000.0" />
-  <kd  value="1.0" />
+  <mu1 value="1.5"/>
+  <mu2 value="1.5"/>
+  <kp  value="750000.0" />
+  <kd  value="150.0" />
   <fdir1 value="0 0 1"/>
   <material>Gazebo/Black</material>
 </gazebo>
 
 <gazebo reference="${robot_name}/right_front_wheel">
-  <mu1 value="1.0"/>
-  <mu2 value="1.0"/>
-  <kp  value="10000000.0" />
-  <kd  value="1.0" />
+  <mu1 value="1.5"/>
+  <mu2 value="1.5"/>
+  <kp  value="750000.0" />
+  <kd  value="150.0" />
   <fdir1 value="0 0 1"/>
   <material>Gazebo/Black</material>
 </gazebo>
@@ -46,7 +46,7 @@
 </gazebo>
 
 <!-- Odometry (cheap hack) -->
-<gazebo>
+<!-- <gazebo>
   <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
     <alwaysOn>true</alwaysOn>
     <updateRate>50.0</updateRate>
@@ -57,7 +57,7 @@
     <xyzOffsets>0 0 0</xyzOffsets>
     <rpyOffsets>0 0 0</rpyOffsets>
   </plugin>
-</gazebo>
+</gazebo> -->
 
 <!-- hokuyo -->
 <xacro:unless value="$(optenv DISABLE_GAZEBO_LASER false)">
