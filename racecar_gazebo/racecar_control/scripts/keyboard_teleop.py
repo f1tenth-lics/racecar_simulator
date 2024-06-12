@@ -1,26 +1,21 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
 import rospy
+import sys
+import select
+import termios
+import tty
 
-from ackermann_msgs.msg import AckermannDriveStamped
+from ackermann_msgs.msg import AckermannDrive
 
-import sys, select, termios, tty
+keyBindings = {'w':(1.0,  0.0),  # move forward
+               'd':(1.0, -1.0), # move foward and right
+               'a':(1.0 , 1.0),  # move forward and left
+               's':(-1.0, 0.0), # move reverse
+               'q':(0.0,  0.0)}  # all stop
 
-banner = """
-Reading from the keyboard  and Publishing to AckermannDriveStamped!
----------------------------
-Moving around:
-        w
-   a    s    d
-anything else : stop
-CTRL-C to quit
-"""
-
-keyBindings = {
-  'w':(1,0),
-  'd':(1,-1),
-  'a':(1,1),
-  's':(-1,0),
-}
+speed_limit = 0.250
+angle_limit = 0.325
 
 def getKey():
    tty.setraw(sys.stdin.fileno())
@@ -29,57 +24,41 @@ def getKey():
    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
    return key
 
-speed = 0.5
-turn = 0.25
+def vels(speed, turn):
+  return 'currently:\tspeed {}\tturn {}'.format(speed, turn)
 
-def vels(speed,turn):
-  return "currently:\tspeed %s\tturn %s " % (speed,turn)
+if __name__== '__main__':
+  settings    = termios.tcgetattr(sys.stdin)
+  command_pub = rospy.Publisher('/{}/vesc/high_level/ackermann_cmd_mux/input/nav_0'.format(str(sys.argv[1])), AckermannDrive, queue_size = 1)
+  rospy.init_node('keyboard_teleop', anonymous = True)
 
-if __name__=="__main__":
-  settings = termios.tcgetattr(sys.stdin)
-  pub = rospy.Publisher('/racecar/vesc/ackermann_cmd_mux/input/teleop', AckermannDriveStamped)
-  rospy.init_node('keyop')
-
-  x = 0
-  th = 0
-  status = 0
+  speed  = 0.0
+  angle  = 0.0
+  status = 0.0
 
   try:
-    while(1):
+    while True:
        key = getKey()
-       if key in list(keyBindings.keys()):
-          x = keyBindings[key][0]
-          th = keyBindings[key][1]
+       if key in keyBindings.keys():
+          speed = keyBindings[key][0]
+          angle = keyBindings[key][1]
        else:
-          x = 0
-          th = 0
+          speed = 0.0
+          angle = 0.0
           if (key == '\x03'):
              break
-       msg = AckermannDriveStamped();
-       msg.header.stamp = rospy.Time.now();
-       msg.header.frame_id = "base_link";
-
-       msg.drive.speed = x*speed;
-       msg.drive.acceleration = 1;
-       msg.drive.jerk = 1;
-       msg.drive.steering_angle = th*turn
-       msg.drive.steering_angle_velocity = 1
-
-       pub.publish(msg)
+       command                = AckermannDrive();
+       command.speed          = speed * speed_limit
+       command.steering_angle = angle * angle_limit
+       command_pub.publish(command)
 
   except:
-    print('error')
+    print('raise exception: key binding error')
 
   finally:
-    msg = AckermannDriveStamped();
-    msg.header.stamp = rospy.Time.now();
-    msg.header.frame_id = "base_link";
-
-    msg.drive.speed = 0;
-    msg.drive.acceleration = 1;
-    msg.drive.jerk = 1;
-    msg.drive.steering_angle = 0
-    msg.drive.steering_angle_velocity = 1
-    pub.publish(msg)
+    command = AckermannDrive();
+    command.speed = speed * speed_limit
+    command.steering_angle = angle * angle_limit
+    command_pub.publish(command)
 
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
