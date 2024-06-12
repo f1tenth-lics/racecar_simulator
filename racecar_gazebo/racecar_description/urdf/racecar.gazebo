@@ -59,6 +59,22 @@
   </plugin>
 </gazebo> -->
 
+<!-- IMU -->
+<gazebo>
+  <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+    <updateRate>50.0</updateRate>
+    <bodyName>${robot_name}/imu_link</bodyName>
+    <topicName>imu/data</topicName>
+    <accelDrift>0.005 0.005 0.005</accelDrift>
+    <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+    <rateDrift>0.005 0.005 0.005 </rateDrift>
+    <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+    <headingDrift>0.005</headingDrift>
+    <headingGaussianNoise>0.005</headingGaussianNoise>
+  </plugin>
+</gazebo>
+
+
 <!-- hokuyo -->
 <xacro:unless value="$(optenv DISABLE_GAZEBO_LASER false)">
   <gazebo reference="${robot_name}/laser">
@@ -88,7 +104,7 @@
       </ray>
       <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
         <topicName>scan</topicName>
-        <frameName>laser</frameName>
+        <frameName>${robot_name}/laser</frameName>
       </plugin>
     </sensor>
   </gazebo>

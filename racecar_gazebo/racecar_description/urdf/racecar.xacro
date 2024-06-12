@@ -4,6 +4,7 @@
   <xacro:property name="robot_name" value="$(arg robot_name)" />
   <xacro:arg name="color" default="blue" />
   <xacro:property name="color" value="$(arg color)" />
+  <xacro:property name="dummy_inertia" value="1e-09"/>
 
   <xacro:include filename="$(find racecar_description)/urdf/macros.xacro" />
 
@@ -34,6 +35,19 @@
       <xacro:chassis_inertial_params />
     </inertial>
   </link>
+
+  <link name="${robot_name}/imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+    </inertial>
+  </link>
+  <joint name="${robot_name}/imu_joint" type="fixed">
+    <parent link="${robot_name}/chassis" />
+    <child link="${robot_name}/imu_link" />
+  </joint>
+
 
   <joint name="${robot_name}/chassis_inertia_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
