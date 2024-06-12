@@ -15,6 +15,18 @@
                               right_steering_hinge_position_controller
                               joint_state_controller"/>
 
+  <!-- <node name= "odometry_node" pkg="racecar_gazebo" type="gazebo_odometry_alt.py" output="screen" /> -->
+  <node name="odom_publisher" pkg="racecar_control" type="odom_publisher.py" output="screen">
+    <remap from="ackermann_cmd_mux/output" to="vesc/low_level/ackermann_cmd_mux/output"/>
+  </node>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find racecar_control)/config/robot_localization.yaml" subst_value="true" />
+    <param name="odom_frame" value="$(arg robot_name)/odom"/>
+    <param name="base_link_frame" value="$(arg robot_name)/base_link"/>
+    <param name="world_frame" value="$(arg robot_name)/odom"/>
+  </node>
+
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
@@ -23,9 +35,5 @@
     <remap from="ackermann_cmd_mux/output" to="vesc/low_level/ackermann_cmd_mux/output"/>
   </node>
 
-  <!-- <node name= "odometry_node" pkg="racecar_gazebo" type="gazebo_odometry_alt.py" output="screen" /> -->
-  <node name="odom_publisher" pkg="racecar_control" type="odom_publisher.py" output="screen">
-    <remap from="ackermann_cmd_mux/output" to="vesc/low_level/ackermann_cmd_mux/output"/>
-  </node>
 
 </launch>

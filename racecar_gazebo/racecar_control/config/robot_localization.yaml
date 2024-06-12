@@ -1,0 +1,17 @@
+frequency: 50
+
+odom0: vesc/odom
+odom0_config: [false, false, false, # x, y, z
+              false, false, false, # roll, pitch, yaw
+              true, true, true,    # x velocity, y velocity, z velocity
+              false, false, true,  # roll velocity, pitch velocity, yaw velocity
+              false, false, false] # x acceleration, y acceleration, z acceleration
+odom0_differential: false
+
+imu0: imu/data
+imu0_config: [false, false, false,  # x, y, z
+              true, true, false,    # roll, pitch, yaw
+              false, false, false,  # x velocity, y velocity, z velocity
+              true, true, true,     # roll velocity, pitch velocity, yaw velocity
+              false, false, false]  # x acceleration, y acceleration, z acceleration
+imu0_differential: false
