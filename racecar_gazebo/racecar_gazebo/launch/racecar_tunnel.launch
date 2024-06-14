@@ -2,7 +2,7 @@
 <launch>
   <arg name="gui" default="true" />
   <include file="$(find racecar_gazebo)/launch/racecar.launch">
-    <arg name="world_name" value="racecar_tunnel" />
+    <arg name="world_name" value="$(find racecar_gazebo)/worlds/racecar_tunnel.world" />
     <arg name="gui" value="$(arg gui)" />
   </include>
 </launch>

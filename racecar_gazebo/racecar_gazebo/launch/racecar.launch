@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="world_name" default="racecar" />
+  <arg name="world_name" default="$(find racecar_gazebo)/worlds/racecar.world" />
   <arg name="gui" default="true" />
-  <arg name="run_camera" default="false"/>
+  <arg name="teleop" default="true"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find racecar_gazebo)/worlds/$(arg world_name).world"/>
+    <arg name="world_name" value="$(arg world_name)"/>
     <arg name="gui" value="$(arg gui)"/>
   </include>
 
   <group ns="racecar">
-    <include file="$(find racecar_gazebo)/launch/include/one_racecar.launch">
+    <include file="$(find racecar_gazebo)/launch/include/spawn_racecar.launch">
       <arg name="robot_name" value="racecar"/>
       <arg name="color" value="blue"/>
       <arg name="init_x" value="0"/>
@@ -24,6 +24,7 @@
     <include file="$(find racecar)/launch/mux.launch" ns="vesc" />
   </group>
 
+  <!-- Teleop -->
   <include file="$(find racecar_control)/launch/teleop.launch">
     <arg name="robot_name" value="racecar"/>
   </include>

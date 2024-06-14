@@ -10,7 +10,7 @@
   </include>
 
   <group ns="racecar1">
-    <include file="$(find racecar_gazebo)/launch/include/one_racecar.launch">
+    <include file="$(find racecar_gazebo)/launch/include/spawn_racecar.launch">
       <arg name="robot_name" value="racecar1"/>
       <arg name="color" value="blue"/>
       <arg name="init_x" value="0"/>
