@@ -2,7 +2,7 @@
 <launch>
   <arg name="world_name" default="$(find racecar_gazebo)/worlds/racecar.world" />
   <arg name="gui" default="true" />
-  <arg name="teleop" default="true"/>
+  <arg name="teleop" default="false"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)"/>
@@ -25,8 +25,10 @@
   </group>
 
   <!-- Teleop -->
-  <include file="$(find racecar_control)/launch/teleop.launch">
-    <arg name="robot_name" value="racecar"/>
-  </include>
+  <group if="$(arg teleop)">
+    <include file="$(find racecar_control)/launch/teleop.launch">
+      <arg name="robot_name" value="racecar"/>
+    </include>
+  </group>
 
 </launch>
