@@ -52,7 +52,7 @@ class OdomPublisher:
             return
 
         # Calculate the average velocity (simple average of the front and rear wheels)
-        avg_velocity = (left_rear_vel + right_rear_vel + left_front_vel + right_front_vel) / 4.0 * 0.1  # 0.1 is the radius of the wheel
+        avg_velocity = (left_rear_vel + right_rear_vel + left_front_vel + right_front_vel) / 4.0 * 0.05  # 0.05 is the radius of the wheel
 
         # Calculate the average steering angle (assuming symmetric steering)
         avg_steering_angle = (left_steering_angle + right_steering_angle) / 2.0
