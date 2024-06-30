@@ -5,8 +5,17 @@
   <arg name="color" default="blue" />
   <arg name="init_x"/>
   <arg name="init_y"/>
-  <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro' color:=$(arg color) robot_name:=$(arg robot_name)" />
+
+  <group ns="$(arg robot_name)">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro' color:=$(arg color) robot_name:=$(arg robot_name)" />
 
     <!-- push robot_description to factory and spawn robot in gazebo -->
-  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot_name) -x $(arg init_x) -y $(arg init_y) -z 0.05" />
+    <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot_name) -x $(arg init_x) -y $(arg init_y) -z 0.05" />
+
+    <include file="$(find racecar)/launch/mux.launch" ns="vesc" />
+
+    <include file="$(find racecar_control)/launch/racecar_control.launch">
+      <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+  </group>
 </launch>
