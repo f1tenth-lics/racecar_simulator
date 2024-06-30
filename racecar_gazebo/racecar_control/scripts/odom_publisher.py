@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import JointState
@@ -40,13 +40,13 @@ class OdomPublisher:
     def callback(self, data):
         # Extract wheel and steering joint velocities and positions
         try:
-            left_front_vel = data.velocity[data.name.index('racecar/left_front_wheel_joint')]
-            left_rear_vel = data.velocity[data.name.index('racecar/left_rear_wheel_joint')]
-            right_front_vel = data.velocity[data.name.index('racecar/right_front_wheel_joint')]
-            right_rear_vel = data.velocity[data.name.index('racecar/right_rear_wheel_joint')]
+            left_front_vel = data.velocity[data.name.index(self.prefix + 'left_front_wheel_joint')]
+            left_rear_vel = data.velocity[data.name.index(self.prefix + 'left_rear_wheel_joint')]
+            right_front_vel = data.velocity[data.name.index(self.prefix + 'right_front_wheel_joint')]
+            right_rear_vel = data.velocity[data.name.index(self.prefix + 'right_rear_wheel_joint')]
             
-            left_steering_angle = data.position[data.name.index('racecar/left_steering_hinge_joint')]
-            right_steering_angle = data.position[data.name.index('racecar/right_steering_hinge_joint')]
+            left_steering_angle = data.position[data.name.index(self.prefix + 'left_steering_hinge_joint')]
+            right_steering_angle = data.position[data.name.index(self.prefix + 'right_steering_hinge_joint')]
         except ValueError:
             rospy.logerr("Required joint not found in JointState message.")
             return
