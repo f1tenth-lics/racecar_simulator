@@ -219,7 +219,7 @@
 
   <xacro:unless value="$(optenv DISABLE_GAZEBO_CAMERA false)">
     <xacro:include filename="$(find racecar_description)/urdf/include/_d435.urdf.xacro" />
-    <xacro:sensor_d435 parent="${robot_name}/chassis" name="${robot_name}/camera" topics_ns="$(arg robot_name)">
+    <xacro:sensor_d435 parent="${robot_name}/chassis" name="${robot_name}/camera" topics_ns="${robot_name}/camera">
       <origin xyz="0.390 0 0.04" rpy="0 0 0"/>
     </xacro:sensor_d435>
   </xacro:unless>
